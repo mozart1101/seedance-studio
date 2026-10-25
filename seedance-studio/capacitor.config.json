@@ -1,0 +1,9 @@
+{
+  "appId": "com.example.seedancestudio",
+  "appName": "Seedance Studio",
+  "webDir": "src",
+  "backgroundColor": "#0f0f14",
+  "plugins": {
+    "CapacitorHttp": { "enabled": true }
+  }
+}

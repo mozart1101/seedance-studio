@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f0f14" />
+  <title>Seedance Studio</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brand"><span class="logo">▶</span> Seedance Studio</div>
+      <nav>
+        <button class="nav active" data-view="generate">Generate</button>
+        <button class="nav" data-view="history">History <span id="histCount" class="pill">0</span></button>
+        <button class="nav" data-view="settings">Settings</button>
+      </nav>
+      <div class="side-foot">
+        <div id="keyState" class="keystate"><span class="dot"></span><span id="keyText">No API key</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- GENERATE -->
+      <section id="view-generate" class="view active">
+        <div class="cols">
+          <div class="col">
+            <div class="card">
+              <div id="models" class="seg"></div>
+            </div>
+
+            <div class="card" id="card-frames">
+              <h3>Start &amp; end frames</h3>
+              <p class="muted small">Optional. The clip opens on the start frame and lands on the end frame. Can't be combined with reference files.</p>
+              <div class="two">
+                <div><label class="lbl">Start frame</label><div id="slot-first"></div></div>
+                <div><label class="lbl">End frame</label><div id="slot-last"></div></div>
+              </div>
+              <p id="lock-frames" class="lock hidden">Locked: remove your reference files to use frames.</p>
+            </div>
+
+            <div class="card">
+              <h3>Prompt</h3>
+              <textarea id="prompt" rows="9" placeholder="Describe the video: subject, action, camera movement, mood, audio…"></textarea>
+              <div class="row between muted small"><span>Click a token to insert a reference</span><span id="count">0</span></div>
+              <div id="tokens" class="chips"></div>
+            </div>
+
+            <div class="card" id="card-refs">
+              <h3>Reference images <span class="muted small" id="cnt-image"></span></h3>
+              <p class="muted small">Up to 9 images (30 MB each). Order sets @image1…@image9.</p>
+              <div id="slot-image"></div>
+
+              <h3 class="gap-top">Reference videos <span class="muted small" id="cnt-video"></span></h3>
+              <p class="muted small">Up to 3 videos, MP4/MOV, 50 MB each, 15 s total. Order sets @video1…@video3.</p>
+              <div id="slot-video"></div>
+
+              <h3 class="gap-top">Reference audio <span class="muted small" id="cnt-audio"></span></h3>
+              <p class="muted small">Up to 3 clips, MP3/WAV, 15 MB each, 15 s total. Order sets @audio1…@audio3.</p>
+              <div id="slot-audio"></div>
+              <p id="lock-refs" class="lock hidden">Locked: remove your start/end frames to use reference files.</p>
+              <div class="row between"><span></span><button id="clearUploads" class="ghost">Clear uploads</button></div>
+            </div>
+
+            <div class="card">
+              <h3>Options</h3>
+              <div class="field row between">
+                <div><b>Generate audio</b><div class="muted small">Let the model score the clip instead of returning it silent.</div></div>
+                <label class="switch"><input id="audio" type="checkbox" checked /><span></span></label>
+              </div>
+              <div class="field">
+                <label class="lbl">Duration <b id="durVal">8 s</b></label>
+                <input id="duration" type="range" />
+                <div class="row between muted small"><span id="durMin"></span><span id="durMax"></span></div>
+              </div>
+              <div class="field">
+                <label class="lbl">Resolution</label>
+                <div id="resolution" class="seg"></div>
+              </div>
+              <div class="field">
+                <label class="lbl">Aspect ratio</label>
+                <div id="aspect" class="seg wrap"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col sticky">
+            <div class="card">
+              <button id="go" class="primary">Generate video</button>
+              <button id="cancel" class="ghost wide hidden">Stop waiting</button>
+              <p id="status" class="muted small center"></p>
+            </div>
+            <div class="card">
+              <div class="row between"><h3>Result</h3><span id="badge" class="badge hidden"></span></div>
+              <div id="result" class="result"><p class="muted">Your video will appear here. Generation usually takes a few minutes.</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HISTORY -->
+      <section id="view-history" class="view">
+        <div class="row between">
+          <h2>History</h2>
+          <button id="clearHist" class="ghost">Clear all</button>
+        </div>
+        <p class="muted small">Result links from kie.ai expire after about 14 days, so download anything you want to keep.</p>
+        <div id="histGrid" class="hist"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="view-settings" class="view">
+        <h2>Settings</h2>
+        <div class="card narrow">
+          <h3>kie.ai API key</h3>
+          <p class="muted small">Stored only on this device (local storage). Get a key at kie.ai/api-key.</p>
+          <input id="key" type="password" placeholder="Paste your API key" autocomplete="off" spellcheck="false" />
+          <div class="row gap">
+            <button id="saveKey" class="primary small-btn">Save</button>
+            <button id="showKey" class="ghost">Show</button>
+            <button id="credits" class="ghost">Check credits</button>
+            <button id="forgetKey" class="ghost">Remove</button>
+          </div>
+          <p id="settingsMsg" class="muted small"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

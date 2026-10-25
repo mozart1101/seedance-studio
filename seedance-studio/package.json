@@ -1,0 +1,31 @@
+{
+  "name": "seedance-studio",
+  "version": "1.0.0",
+  "description": "Seedance 2.0 video generator for Windows (Electron) and Android (PWA / Capacitor), using the kie.ai API",
+  "main": "electron/main.js",
+  "author": "You",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "web": "npx --yes serve src -l 5173",
+    "dist:win": "electron-builder --win portable nsis",
+    "cap:add": "cap add android",
+    "cap:sync": "cap sync android",
+    "cap:open": "cap open android",
+    "android": "npm run cap:sync && npm run cap:open"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.example.seedancestudio",
+    "productName": "Seedance Studio",
+    "files": ["electron/**/*", "src/**/*", "package.json"],
+    "win": { "target": ["portable", "nsis"], "icon": "src/icons/icon-512.png" },
+    "directories": { "output": "dist" }
+  }
+}
